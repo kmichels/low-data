@@ -6,23 +6,35 @@
 //
 
 import CoreData
+import os.log
 
 struct PersistenceController {
     static let shared = PersistenceController()
+    private let logger = Logger(subsystem: "com.lowdata", category: "Persistence")
 
     @MainActor
     static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-        }
+        
+        // Create sample trusted network
+        let trustedNetwork = CDTrustedNetwork(context: viewContext)
+        trustedNetwork.id = UUID()
+        trustedNetwork.name = "Home WiFi"
+        trustedNetwork.dateAdded = Date()
+        trustedNetwork.isEnabled = true
+        
+        // Create sample process profiles
+        let dropboxProfile = CDProcessProfile(context: viewContext)
+        dropboxProfile.processIdentifier = "com.dropbox.Dropbox"
+        dropboxProfile.processName = "Dropbox"
+        dropboxProfile.processType = "application"
+        dropboxProfile.averageBandwidth = 1_000_000 // 1 MB/s
+        dropboxProfile.lastSeen = Date()
+        
         do {
             try viewContext.save()
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
@@ -33,25 +45,34 @@ struct PersistenceController {
 
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Low_Data")
+        
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        
+        // Configure for performance
+        container.persistentStoreDescriptions.forEach { description in
+            description.shouldMigrateStoreAutomatically = true
+            description.shouldInferMappingModelAutomatically = true
+            description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+            description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+        }
+        
+        container.loadPersistentStores(completionHandler: { [weak self] (storeDescription, error) in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
+                self?.logger.error("Failed to load persistent store: \(error), \(error.userInfo)")
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+            self?.logger.info("Persistent store loaded successfully: \(storeDescription)")
         })
+        
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+    
+    /// Creates a background context for heavy operations
+    func newBackgroundContext() -> NSManagedObjectContext {
+        let context = container.newBackgroundContext()
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        return context
     }
 }

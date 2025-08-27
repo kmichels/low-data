@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    <entity name="CDTrustedNetwork" representedClassName="CDTrustedNetwork" syncable="YES" codeGenerationType="manual">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="identifiersData" attributeType="Binary"/>
+        <attribute name="dateAdded" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isEnabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="customRulesData" optional="YES" attributeType="Binary"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CDTrafficObservation" representedClassName="CDTrafficObservation" syncable="YES" codeGenerationType="manual">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="processIdentifier" attributeType="String"/>
+        <attribute name="processName" attributeType="String"/>
+        <attribute name="processType" attributeType="String"/>
+        <attribute name="bytesIn" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bytesOut" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="networkType" attributeType="String"/>
+        <attribute name="networkSSID" optional="YES" attributeType="String"/>
+        <attribute name="destinationHost" optional="YES" attributeType="String"/>
+        <attribute name="destinationPort" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="CDProcessProfile" representedClassName="CDProcessProfile" syncable="YES" codeGenerationType="manual">
+        <attribute name="processIdentifier" attributeType="String"/>
+        <attribute name="processName" attributeType="String"/>
+        <attribute name="processType" attributeType="String"/>
+        <attribute name="bundleId" optional="YES" attributeType="String"/>
+        <attribute name="path" optional="YES" attributeType="String"/>
+        <attribute name="observationCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="averageBandwidth" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="peakBandwidth" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="totalBytesIn" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalBytesOut" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lastSeen" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isBursty" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="processIdentifier"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="44"/>
+        <element name="CDTrustedNetwork" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="CDTrafficObservation" positionX="-54" positionY="27" width="128" height="194"/>
+        <element name="CDProcessProfile" positionX="-36" positionY="90" width="128" height="209"/>
     </elements>
 </model>
