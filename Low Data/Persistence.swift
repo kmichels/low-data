@@ -8,12 +8,12 @@
 import CoreData
 import os.log
 
-struct PersistenceController {
-    static let shared = PersistenceController()
+public struct PersistenceController {
+    public static let shared = PersistenceController()
     private let logger = Logger(subsystem: "com.lowdata", category: "Persistence")
 
     @MainActor
-    static let preview: PersistenceController = {
+    public static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         
@@ -41,9 +41,9 @@ struct PersistenceController {
         return result
     }()
 
-    let container: NSPersistentContainer
+    public let container: NSPersistentContainer
 
-    init(inMemory: Bool = false) {
+    public init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Low_Data")
         
         if inMemory {
@@ -58,12 +58,13 @@ struct PersistenceController {
             description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
         }
         
-        container.loadPersistentStores(completionHandler: { [weak self] (storeDescription, error) in
+        let loadLogger = Logger(subsystem: "com.lowdata", category: "Persistence")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                self?.logger.error("Failed to load persistent store: \(error), \(error.userInfo)")
+                loadLogger.error("Failed to load persistent store: \(error), \(error.userInfo)")
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-            self?.logger.info("Persistent store loaded successfully: \(storeDescription)")
+            loadLogger.info("Persistent store loaded successfully: \(storeDescription)")
         })
         
         container.viewContext.automaticallyMergesChangesFromParent = true

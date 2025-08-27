@@ -147,7 +147,7 @@ final class NetworkIdentifierTests: XCTestCase {
     }
     
     func test_cidr_throwsErrorForInvalidFormat() {
-        XCTAssertThrows(try CIDR("192.168.1.0")) { error in
+        XCTAssertThrowsError(try CIDR("192.168.1.0")) { error in
             guard case NetworkError.invalidCIDR = error else {
                 XCTFail("Wrong error type")
                 return

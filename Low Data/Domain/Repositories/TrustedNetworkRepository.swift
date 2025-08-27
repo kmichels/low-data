@@ -8,7 +8,7 @@
 import Foundation
 
 /// Repository protocol for managing trusted networks
-public protocol TrustedNetworkRepository {
+public protocol TrustedNetworkRepository: Actor {
     /// Fetch all trusted networks
     func fetchAll() async throws -> [TrustedNetwork]
     

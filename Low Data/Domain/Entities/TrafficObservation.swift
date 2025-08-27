@@ -80,7 +80,7 @@ public enum BlockingRecommendation: Equatable {
 }
 
 /// Statistics about network traffic
-public struct TrafficStatistics: Codable {
+public struct TrafficStatistics {
     public let periodStart: Date
     public let periodEnd: Date
     public let totalBytesBlocked: UInt64

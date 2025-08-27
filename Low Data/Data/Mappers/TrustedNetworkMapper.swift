@@ -74,7 +74,7 @@ struct TrafficObservationMapper {
     static func toDomain(_ cdObservation: CDTrafficObservation) throws -> TrafficObservation {
         guard let id = cdObservation.id,
               let timestamp = cdObservation.timestamp,
-              let processIdentifier = cdObservation.processIdentifier,
+              cdObservation.processIdentifier != nil,
               let processName = cdObservation.processName,
               let processTypeStr = cdObservation.processType,
               let networkTypeStr = cdObservation.networkType else {
@@ -129,7 +129,7 @@ struct ProcessProfileMapper {
     
     /// Converts Core Data entity to domain entity
     static func toDomain(_ cdProfile: CDProcessProfile) throws -> ProcessProfile {
-        guard let processIdentifier = cdProfile.processIdentifier,
+        guard cdProfile.processIdentifier != nil,
               let processName = cdProfile.processName,
               let processTypeStr = cdProfile.processType,
               let lastSeen = cdProfile.lastSeen else {

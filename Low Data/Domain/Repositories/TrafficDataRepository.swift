@@ -8,7 +8,7 @@
 import Foundation
 
 /// Repository protocol for managing traffic observations and statistics
-public protocol TrafficDataRepository {
+public protocol TrafficDataRepository: Actor {
     /// Save a traffic observation
     func save(_ observation: TrafficObservation) async throws
     
@@ -32,7 +32,7 @@ public protocol TrafficDataRepository {
 }
 
 /// Repository protocol for managing process profiles
-public protocol ProcessProfileRepository {
+public protocol ProcessProfileRepository: Actor {
     /// Save or update a process profile
     func save(_ profile: ProcessProfile) async throws
     

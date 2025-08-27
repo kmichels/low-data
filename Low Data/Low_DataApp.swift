@@ -9,12 +9,13 @@ import SwiftUI
 
 @main
 struct Low_DataApp: App {
-    let persistenceController = PersistenceController.shared
-
+    @StateObject private var container = DependencyContainer.shared
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.managedObjectContext, container.persistenceController.container.viewContext)
+                .dependencyContainer(container)
         }
     }
 }

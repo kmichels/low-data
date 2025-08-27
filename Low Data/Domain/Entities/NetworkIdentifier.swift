@@ -122,6 +122,11 @@ public struct DetectedNetwork {
             return "Cellular"
         } else if interfaceType == .ethernet {
             return "Ethernet"
+        } else if interfaceType == .vpn {
+            return "VPN"
+        } else if let interfaceName = interfaceName {
+            // Use interface name as fallback (e.g., "en0", "lo0")
+            return "Network (\(interfaceName))"
         } else {
             return "Unknown Network"
         }
@@ -136,7 +141,7 @@ public enum NetworkInterfaceType {
     case other
 }
 
-public enum NetworkQuality {
+public enum NetworkQuality: String, Codable {
     case excellent
     case good
     case fair

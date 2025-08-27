@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Mock TrustedNetworkRepository
 
-class MockTrustedNetworkRepository: TrustedNetworkRepository {
+actor MockTrustedNetworkRepository: TrustedNetworkRepository {
     var networks: [TrustedNetwork] = []
     var shouldThrowError = false
     var fetchAllCallCount = 0
@@ -70,7 +70,7 @@ class MockTrustedNetworkRepository: TrustedNetworkRepository {
 
 // MARK: - Mock TrafficDataRepository
 
-class MockTrafficDataRepository: TrafficDataRepository {
+actor MockTrafficDataRepository: TrafficDataRepository {
     var observations: [TrafficObservation] = []
     var shouldThrowError = false
     var saveCallCount = 0
@@ -148,7 +148,7 @@ class MockTrafficDataRepository: TrafficDataRepository {
 
 // MARK: - Mock ProcessProfileRepository
 
-class MockProcessProfileRepository: ProcessProfileRepository {
+actor MockProcessProfileRepository: ProcessProfileRepository {
     var profiles: [ProcessProfile] = []
     var shouldThrowError = false
     var saveCallCount = 0

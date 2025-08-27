@@ -145,18 +145,41 @@ actor CoreDataTrafficRepository: TrafficDataRepository {
         let context = container.newBackgroundContext()
         
         try await context.perform {
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDTrafficObservation")
-            request.predicate = NSPredicate(format: "timestamp < %@", date as NSDate)
+            // Check if we're using an in-memory store (for testing)
+            let isInMemory = self.container.persistentStoreDescriptions.first?.type == NSInMemoryStoreType
             
-            let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
-            deleteRequest.resultType = .resultTypeCount
-            
-            let result = try context.execute(deleteRequest) as? NSBatchDeleteResult
-            let deleteCount = result?.result as? Int ?? 0
-            
-            if deleteCount > 0 {
-                try context.save()
-                self.logger.info("Pruned \(deleteCount) old observations")
+            if isInMemory {
+                // For in-memory stores, fetch and delete individually
+                let request = NSFetchRequest<CDTrafficObservation>(entityName: "CDTrafficObservation")
+                request.predicate = NSPredicate(format: "timestamp < %@", date as NSDate)
+                
+                let observations = try context.fetch(request)
+                let deleteCount = observations.count
+                
+                for observation in observations {
+                    context.delete(observation)
+                }
+                
+                if deleteCount > 0 {
+                    try context.save()
+                    self.logger.info("Pruned \(deleteCount) old observations")
+                }
+            } else {
+                // For persistent stores, use batch delete
+                let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDTrafficObservation")
+                request.predicate = NSPredicate(format: "timestamp < %@", date as NSDate)
+                
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+                deleteRequest.resultType = .resultTypeCount
+                
+                let result = try context.execute(deleteRequest) as? NSBatchDeleteResult
+                let deleteCount = result?.result as? Int ?? 0
+                
+                if deleteCount > 0 {
+                    // Batch deletes bypass the context, so we need to merge changes
+                    try context.save()
+                    self.logger.info("Pruned \(deleteCount) old observations")
+                }
             }
         }
     }
@@ -245,18 +268,41 @@ actor CoreDataProcessProfileRepository: ProcessProfileRepository {
         let context = container.newBackgroundContext()
         
         try await context.perform {
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDProcessProfile")
-            request.predicate = NSPredicate(format: "lastSeen < %@", date as NSDate)
+            // Check if we're using an in-memory store (for testing)
+            let isInMemory = self.container.persistentStoreDescriptions.first?.type == NSInMemoryStoreType
             
-            let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
-            deleteRequest.resultType = .resultTypeCount
-            
-            let result = try context.execute(deleteRequest) as? NSBatchDeleteResult
-            let deleteCount = result?.result as? Int ?? 0
-            
-            if deleteCount > 0 {
-                try context.save()
-                self.logger.info("Pruned \(deleteCount) inactive process profiles")
+            if isInMemory {
+                // For in-memory stores, fetch and delete individually
+                let request = NSFetchRequest<CDProcessProfile>(entityName: "CDProcessProfile")
+                request.predicate = NSPredicate(format: "lastSeen < %@", date as NSDate)
+                
+                let profiles = try context.fetch(request)
+                let deleteCount = profiles.count
+                
+                for profile in profiles {
+                    context.delete(profile)
+                }
+                
+                if deleteCount > 0 {
+                    try context.save()
+                    self.logger.info("Pruned \(deleteCount) inactive process profiles")
+                }
+            } else {
+                // For persistent stores, use batch delete
+                let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDProcessProfile")
+                request.predicate = NSPredicate(format: "lastSeen < %@", date as NSDate)
+                
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+                deleteRequest.resultType = .resultTypeCount
+                
+                let result = try context.execute(deleteRequest) as? NSBatchDeleteResult
+                let deleteCount = result?.result as? Int ?? 0
+                
+                if deleteCount > 0 {
+                    // Batch deletes bypass the context, so we need to merge changes
+                    try context.save()
+                    self.logger.info("Pruned \(deleteCount) inactive process profiles")
+                }
             }
         }
     }
