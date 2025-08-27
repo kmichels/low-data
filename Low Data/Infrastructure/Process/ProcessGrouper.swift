@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if os(macOS)
+import AppKit
+#endif
 import OSLog
 
 /// Groups helper processes with their parent applications
@@ -247,6 +250,7 @@ public final class ProcessGrouper {
     
     private func identifyParent(bundleId: String) -> ProcessIdentity {
         // Try to find the actual running parent process
+        #if os(macOS)
         if let app = NSWorkspace.shared.runningApplications.first(where: { $0.bundleIdentifier == bundleId }) {
             return ProcessIdentity(
                 type: .application,
@@ -255,6 +259,7 @@ public final class ProcessGrouper {
                 path: app.executableURL?.path
             )
         }
+        #endif
         
         // Return a placeholder identity
         return ProcessIdentity(

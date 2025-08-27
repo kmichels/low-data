@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if os(macOS)
 import AppKit
+#endif
 import OSLog
 
 /// Service for identifying processes from PIDs and network connections
@@ -59,9 +61,11 @@ public final class ProcessIdentifier {
     
     private func identifyProcess(pid: pid_t) -> ProcessIdentity {
         // Try to get app bundle first
+        #if os(macOS)
         if let app = NSRunningApplication(processIdentifier: pid) {
             return identifyApplication(app)
         }
+        #endif
         
         // Try to get process info via sysctl
         if let info = getProcessInfo(pid: pid) {
@@ -75,6 +79,7 @@ public final class ProcessIdentifier {
         )
     }
     
+    #if os(macOS)
     private func identifyApplication(_ app: NSRunningApplication) -> ProcessIdentity {
         let bundleId = app.bundleIdentifier
         let name = app.localizedName ?? app.executableURL?.lastPathComponent ?? "Unknown App"
@@ -103,6 +108,7 @@ public final class ProcessIdentifier {
             pid: app.processIdentifier
         )
     }
+    #endif
     
     private func identifyFromProcessInfo(_ info: ProcessInfo) -> ProcessIdentity {
         let name = info.name
@@ -150,7 +156,7 @@ public final class ProcessIdentifier {
     private func getProcessInfo(pid: pid_t) -> ProcessInfo? {
         var info = kinfo_proc()
         var size = MemoryLayout<kinfo_proc>.size
-        var mib: [Int32] = [CTL_KERN, KERN_PROC, KERN_PROC_PID, pid]
+        var mib: [Int32] = [CTL_KERN, KERN_PROC, KERN_PROC_PID, Int32(pid)]
         
         let result = sysctl(&mib, 4, &info, &size, nil, 0)
         guard result == 0 else {
@@ -253,9 +259,9 @@ private final class LRUCache<Key: Hashable, Value> {
 
 import Darwin
 
-private let CTL_KERN = 1
-private let KERN_PROC = 14
-private let KERN_PROC_PID = 1
+private let CTL_KERN: Int32 = 1
+private let KERN_PROC: Int32 = 14
+private let KERN_PROC_PID: Int32 = 1
 
 @_silgen_name("proc_pidpath")
 private func proc_pidpath(_ pid: pid_t, _ buffer: UnsafeMutablePointer<CChar>, _ bufferSize: UInt32) -> Int32

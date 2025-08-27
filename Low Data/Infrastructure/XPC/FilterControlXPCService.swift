@@ -177,7 +177,7 @@ public final class FilterControlXPCService: NSObject {
         return try decoder.decode(DetectedNetwork.self, from: networkData)
     }
     
-    public func getStatistics() async throws -> TrafficStatistics {
+    public func getStatistics() async throws -> FilterTrafficStatistics {
         let service = try establishConnection()
         
         let data = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Data?, Error>) in
@@ -195,7 +195,7 @@ public final class FilterControlXPCService: NSObject {
         }
         
         let decoder = JSONDecoder()
-        return try decoder.decode(TrafficStatistics.self, from: statsData)
+        return try decoder.decode(FilterTrafficStatistics.self, from: statsData)
     }
     
     // MARK: - Traffic Monitoring Methods
@@ -299,11 +299,16 @@ public final class FilterControlXPCService: NSObject {
 // MARK: - Supporting Types
 
 /// Traffic statistics from the filter
-public struct TrafficStatistics: Codable {
+public struct FilterTrafficStatistics: Codable {
     public let totalBlocked: Int64
     public let totalAllowed: Int64
-    public let topBlockedProcesses: [(identifier: String, count: Int)]
-    public let topAllowedProcesses: [(identifier: String, count: Int)]
+    public let topBlockedProcesses: [ProcessCount]
+    public let topAllowedProcesses: [ProcessCount]
     public let startDate: Date
     public let lastUpdateDate: Date
+}
+
+public struct ProcessCount: Codable {
+    public let identifier: String
+    public let count: Int
 }

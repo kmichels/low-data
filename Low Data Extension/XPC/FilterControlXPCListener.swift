@@ -288,9 +288,9 @@ public class TrafficObserver {
     private let startTime = Date()
     private var observations: [TrafficObservation] = []
     
-    public func getStatistics() -> TrafficStatistics {
+    public func getStatistics() -> FilterTrafficStatistics {
         // Placeholder implementation
-        return TrafficStatistics(
+        return FilterTrafficStatistics(
             totalBlocked: totalBytesBlocked,
             totalAllowed: totalBytesAllowed,
             topBlockedProcesses: [],

@@ -98,7 +98,7 @@ public struct CIDR: Codable, Equatable {
 }
 
 /// Represents detected network information
-public struct DetectedNetwork {
+public struct DetectedNetwork: Codable {
     public var interfaceName: String?
     public var interfaceType: NetworkInterfaceType?
     public var ssid: String?
@@ -189,7 +189,7 @@ public struct DetectedNetwork {
     }
 }
 
-public enum NetworkInterfaceType {
+public enum NetworkInterfaceType: String, Codable {
     case wifi
     case ethernet
     case cellular

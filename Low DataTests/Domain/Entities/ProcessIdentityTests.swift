@@ -163,8 +163,7 @@ final class ProcessIdentityTests: XCTestCase {
             process: process,
             bytesIn: 1000,
             bytesOut: 500,
-            networkType: .untrusted,
-            networkQuality: .good
+            isTrustedNetwork: false
         )
         
         profile.addObservation(observation)
@@ -186,8 +185,7 @@ final class ProcessIdentityTests: XCTestCase {
                 process: process,
                 bytesIn: 100,
                 bytesOut: 100,
-                networkType: .untrusted,
-                networkQuality: .good
+                isTrustedNetwork: false
             )
             profile.addObservation(observation)
         }
@@ -199,8 +197,7 @@ final class ProcessIdentityTests: XCTestCase {
             process: process,
             bytesIn: 5000,
             bytesOut: 5000,
-            networkType: .untrusted,
-            networkQuality: .good
+            isTrustedNetwork: false
         )
         profile.addObservation(spikeObservation)
         
