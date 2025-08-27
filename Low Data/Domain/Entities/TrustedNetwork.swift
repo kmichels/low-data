@@ -10,11 +10,12 @@ import Foundation
 /// Represents a trusted network configuration
 public struct TrustedNetwork: Identifiable, Equatable, Codable {
     public let id: UUID
-    public let name: String
-    public let identifiers: [NetworkIdentifier]
+    public var name: String
+    public var identifiers: [NetworkIdentifier]
     public let dateAdded: Date
-    public let isEnabled: Bool
-    public let customRules: [ProcessRule]?
+    public var isEnabled: Bool
+    public var trustLevel: NetworkTrustLevel
+    public var customRules: [ProcessRule]
     
     public init(
         id: UUID = UUID(),
@@ -22,13 +23,15 @@ public struct TrustedNetwork: Identifiable, Equatable, Codable {
         identifiers: [NetworkIdentifier],
         dateAdded: Date = Date(),
         isEnabled: Bool = true,
-        customRules: [ProcessRule]? = nil
+        trustLevel: NetworkTrustLevel = .trusted,
+        customRules: [ProcessRule] = []
     ) {
         self.id = id
         self.name = name
         self.identifiers = identifiers
         self.dateAdded = dateAdded
         self.isEnabled = isEnabled
+        self.trustLevel = trustLevel
         self.customRules = customRules
     }
     
@@ -46,15 +49,18 @@ public struct TrustedNetwork: Identifiable, Equatable, Codable {
 public struct ProcessRule: Codable, Equatable {
     public let processIdentifier: String
     public let action: RuleAction
+    public let priority: Int
     public let reason: String?
     
     public init(
         processIdentifier: String,
         action: RuleAction,
+        priority: Int = 0,
         reason: String? = nil
     ) {
         self.processIdentifier = processIdentifier
         self.action = action
+        self.priority = priority
         self.reason = reason
     }
 }
@@ -68,6 +74,7 @@ public enum RuleAction: String, Codable {
 /// Trust level for a network
 public enum NetworkTrustLevel: String, Codable {
     case trusted
+    case restricted
     case untrusted
     case unknown
     
@@ -75,7 +82,7 @@ public enum NetworkTrustLevel: String, Codable {
         switch self {
         case .trusted:
             return false
-        case .untrusted, .unknown:
+        case .restricted, .untrusted, .unknown:
             return true
         }
     }

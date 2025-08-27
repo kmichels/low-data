@@ -10,12 +10,14 @@ import Foundation
 /// Represents an observation of network traffic for learning
 public struct TrafficObservation: Codable, Equatable {
     public let id: UUID
-    public let timestamp: Date
+    public var timestamp: Date
     public let process: ProcessIdentity
-    public let bytesIn: UInt64
-    public let bytesOut: UInt64
-    public let networkType: NetworkTrustLevel
-    public let networkQuality: NetworkQuality
+    public let bytesIn: Int64
+    public let bytesOut: Int64
+    public let packetsIn: Int
+    public let packetsOut: Int
+    public let networkType: NetworkType
+    public let isTrustedNetwork: Bool
     public let destinationHost: String?
     public let destinationPort: Int?
     
@@ -23,10 +25,12 @@ public struct TrafficObservation: Codable, Equatable {
         id: UUID = UUID(),
         timestamp: Date = Date(),
         process: ProcessIdentity,
-        bytesIn: UInt64,
-        bytesOut: UInt64,
-        networkType: NetworkTrustLevel,
-        networkQuality: NetworkQuality,
+        bytesIn: Int64,
+        bytesOut: Int64,
+        packetsIn: Int = 0,
+        packetsOut: Int = 0,
+        networkType: NetworkType,
+        isTrustedNetwork: Bool,
         destinationHost: String? = nil,
         destinationPort: Int? = nil
     ) {
@@ -35,16 +39,27 @@ public struct TrafficObservation: Codable, Equatable {
         self.process = process
         self.bytesIn = bytesIn
         self.bytesOut = bytesOut
+        self.packetsIn = packetsIn
+        self.packetsOut = packetsOut
         self.networkType = networkType
-        self.networkQuality = networkQuality
+        self.isTrustedNetwork = isTrustedNetwork
         self.destinationHost = destinationHost
         self.destinationPort = destinationPort
     }
     
     /// Total bandwidth for this observation
-    public var totalBytes: UInt64 {
+    public var totalBytes: Int64 {
         bytesIn + bytesOut
     }
+}
+
+/// Type of network connection
+public enum NetworkType: String, Codable, CaseIterable {
+    case wifi
+    case cellular
+    case ethernet
+    case vpn
+    case unknown
 }
 
 /// Recommendation for blocking/allowing a process

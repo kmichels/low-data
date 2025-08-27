@@ -26,12 +26,15 @@ struct TrustedNetworkMapper {
             identifiers = []
         }
         
-        let customRules: [ProcessRule]?
+        let customRules: [ProcessRule]
         if let data = cdNetwork.customRulesData {
             customRules = try JSONDecoder().decode([ProcessRule].self, from: data)
         } else {
-            customRules = nil
+            customRules = []
         }
+        
+        // Default trust level to trusted if not stored
+        let trustLevel = NetworkTrustLevel.trusted
         
         return TrustedNetwork(
             id: id,
@@ -39,6 +42,7 @@ struct TrustedNetworkMapper {
             identifiers: identifiers,
             dateAdded: dateAdded,
             isEnabled: cdNetwork.isEnabled,
+            trustLevel: trustLevel,
             customRules: customRules
         )
     }
@@ -52,8 +56,8 @@ struct TrustedNetworkMapper {
         
         cdNetwork.identifiersData = try JSONEncoder().encode(domain.identifiers)
         
-        if let rules = domain.customRules {
-            cdNetwork.customRulesData = try JSONEncoder().encode(rules)
+        if !domain.customRules.isEmpty {
+            cdNetwork.customRulesData = try JSONEncoder().encode(domain.customRules)
         } else {
             cdNetwork.customRulesData = nil
         }
@@ -87,16 +91,18 @@ struct TrafficObservationMapper {
             name: processName
         )
         
-        let networkType = NetworkTrustLevel(rawValue: networkTypeStr) ?? .unknown
+        let networkType = NetworkType(rawValue: networkTypeStr) ?? .unknown
         
         return TrafficObservation(
             id: id,
             timestamp: timestamp,
             process: process,
-            bytesIn: UInt64(cdObservation.bytesIn),
-            bytesOut: UInt64(cdObservation.bytesOut),
+            bytesIn: cdObservation.bytesIn,
+            bytesOut: cdObservation.bytesOut,
+            packetsIn: 0, // Not stored in Core Data yet
+            packetsOut: 0, // Not stored in Core Data yet
             networkType: networkType,
-            networkQuality: .unknown, // Not stored in Core Data yet
+            isTrustedNetwork: false, // Not stored in Core Data yet
             destinationHost: cdObservation.destinationHost,
             destinationPort: cdObservation.destinationPort > 0 ? Int(cdObservation.destinationPort) : nil
         )
@@ -109,8 +115,8 @@ struct TrafficObservationMapper {
         cdObservation.processIdentifier = domain.process.identifier
         cdObservation.processName = domain.process.name
         cdObservation.processType = domain.process.type.rawValue
-        cdObservation.bytesIn = Int64(domain.bytesIn)
-        cdObservation.bytesOut = Int64(domain.bytesOut)
+        cdObservation.bytesIn = domain.bytesIn
+        cdObservation.bytesOut = domain.bytesOut
         cdObservation.networkType = domain.networkType.rawValue
         cdObservation.destinationHost = domain.destinationHost
         cdObservation.destinationPort = Int32(domain.destinationPort ?? 0)
@@ -148,8 +154,8 @@ struct ProcessProfileMapper {
         profile.observationCount = Int(cdProfile.observationCount)
         profile.averageBandwidth = cdProfile.averageBandwidth
         profile.peakBandwidth = cdProfile.peakBandwidth
-        profile.totalBytesIn = UInt64(cdProfile.totalBytesIn)
-        profile.totalBytesOut = UInt64(cdProfile.totalBytesOut)
+        profile.totalBytesIn = cdProfile.totalBytesIn
+        profile.totalBytesOut = cdProfile.totalBytesOut
         profile.lastSeen = lastSeen
         profile.isBursty = cdProfile.isBursty
         
@@ -166,8 +172,8 @@ struct ProcessProfileMapper {
         cdProfile.observationCount = Int32(domain.observationCount)
         cdProfile.averageBandwidth = domain.averageBandwidth
         cdProfile.peakBandwidth = domain.peakBandwidth
-        cdProfile.totalBytesIn = Int64(domain.totalBytesIn)
-        cdProfile.totalBytesOut = Int64(domain.totalBytesOut)
+        cdProfile.totalBytesIn = domain.totalBytesIn
+        cdProfile.totalBytesOut = domain.totalBytesOut
         cdProfile.lastSeen = domain.lastSeen
         cdProfile.isBursty = domain.isBursty
     }

@@ -102,8 +102,8 @@ public struct ProcessProfile: Codable {
     public var observationCount: Int
     public var averageBandwidth: Double  // Bytes per second
     public var peakBandwidth: Double
-    public var totalBytesIn: UInt64
-    public var totalBytesOut: UInt64
+    public var totalBytesIn: Int64
+    public var totalBytesOut: Int64
     public var lastSeen: Date
     public var isBursty: Bool
     public var commonPorts: Set<Int>

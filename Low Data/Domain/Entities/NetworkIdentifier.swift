@@ -131,6 +131,62 @@ public struct DetectedNetwork {
             return "Unknown Network"
         }
     }
+    
+    public var id: String {
+        // Create a unique ID for network comparison
+        if let ssid = ssid, let bssid = bssid {
+            return "\(ssid):\(bssid)"
+        } else if let ssid = ssid {
+            return ssid
+        } else if let interfaceName = interfaceName {
+            return interfaceName
+        } else {
+            return "unknown"
+        }
+    }
+    
+    public var isPublicWiFi: Bool {
+        // Consider WiFi public if no password or common public network names
+        guard interfaceType == .wifi else { return false }
+        
+        if let ssid = ssid {
+            let publicNames = ["guest", "public", "free", "open", "starbucks", "airport", "hotel"]
+            let lowerSSID = ssid.lowercased()
+            return publicNames.contains { lowerSSID.contains($0) } || bssid == nil
+        }
+        
+        return false
+    }
+    
+    public var isCellular: Bool {
+        return interfaceType == .cellular
+    }
+    
+    public var isWiFi: Bool {
+        return interfaceType == .wifi
+    }
+    
+    public var isExpensive: Bool {
+        return interfaceType == .cellular
+    }
+    
+    public var subnet: String? {
+        // Derive subnet from IP addresses
+        guard let firstIP = ipAddresses?.first else { return nil }
+        
+        // Simplified: assume /24 for private networks
+        let components = firstIP.address.split(separator: ".")
+        guard components.count == 4 else { return nil }
+        
+        return "\(components[0]).\(components[1]).\(components[2]).0/24"
+    }
+    
+    public var gatewayAddresses: [String] {
+        if let gateway = gateway {
+            return [gateway.address]
+        }
+        return []
+    }
 }
 
 public enum NetworkInterfaceType {
