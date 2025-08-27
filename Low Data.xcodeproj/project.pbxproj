@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		71056EB72E5F0867003DE4B4 /* Low Data Architecture.md in Resources */ = {isa = PBXBuildFile; fileRef = 71056EB62E5F0857003DE4B4 /* Low Data Architecture.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		71056E9A2E5F0821003DE4B4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		71056E862E5F0820003DE4B4 /* Low Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Low Data.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71056E992E5F0821003DE4B4 /* Low DataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Low DataTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71056EA32E5F0821003DE4B4 /* Low DataUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Low DataUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		71056EB62E5F0857003DE4B4 /* Low Data Architecture.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Low Data Architecture.md"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +80,7 @@
 		71056E7D2E5F0820003DE4B4 = {
 			isa = PBXGroup;
 			children = (
+				71056EB62E5F0857003DE4B4 /* Low Data Architecture.md */,
 				71056E882E5F0820003DE4B4 /* Low Data */,
 				71056E9C2E5F0821003DE4B4 /* Low DataTests */,
 				71056EA62E5F0821003DE4B4 /* Low DataUITests */,
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71056EB72E5F0867003DE4B4 /* Low Data Architecture.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
