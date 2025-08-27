@@ -7,6 +7,12 @@
         <attribute name="dateAdded" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="isEnabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="customRulesData" optional="YES" attributeType="Binary"/>
+        <fetchIndex name="byId">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byEnabled">
+            <fetchIndexElement property="isEnabled" type="Binary" order="ascending"/>
+        </fetchIndex>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
@@ -25,6 +31,13 @@
         <attribute name="networkSSID" optional="YES" attributeType="String"/>
         <attribute name="destinationHost" optional="YES" attributeType="String"/>
         <attribute name="destinationPort" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <fetchIndex name="byTimestamp">
+            <fetchIndexElement property="timestamp" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byProcess">
+            <fetchIndexElement property="processIdentifier" type="Binary" order="ascending"/>
+            <fetchIndexElement property="timestamp" type="Binary" order="descending"/>
+        </fetchIndex>
     </entity>
     <entity name="CDProcessProfile" representedClassName="CDProcessProfile" syncable="YES" codeGenerationType="class">
         <attribute name="processIdentifier" attributeType="String"/>
@@ -39,6 +52,15 @@
         <attribute name="totalBytesOut" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="lastSeen" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="isBursty" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <fetchIndex name="byProcessId">
+            <fetchIndexElement property="processIdentifier" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byLastSeen">
+            <fetchIndexElement property="lastSeen" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byBandwidth">
+            <fetchIndexElement property="averageBandwidth" type="Binary" order="descending"/>
+        </fetchIndex>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="processIdentifier"/>

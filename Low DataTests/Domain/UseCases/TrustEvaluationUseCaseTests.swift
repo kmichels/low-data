@@ -66,17 +66,11 @@ final class TrustEvaluationUseCaseTests: XCTestCase {
         )
         await trustedNetworkRepo.networks.append(trustedNetwork)
         
-        let detectedNetwork = DetectedNetwork(
-            ssid: "HomeNetwork",
-            bssid: "aa:bb:cc:dd:ee:ff",
-            subnet: "192.168.1.0/24",
-            gatewayAddresses: ["192.168.1.1"],
-            dnsServers: ["8.8.8.8"],
-            interfaceName: "en0",
-            isWiFi: true,
-            isCellular: false,
-            isExpensive: false
-        )
+        var detectedNetwork = DetectedNetwork()
+        detectedNetwork.ssid = "HomeNetwork"
+        detectedNetwork.bssid = "aa:bb:cc:dd:ee:ff"
+        detectedNetwork.interfaceName = "en0"
+        detectedNetwork.interfaceType = .wifi
         networkMonitor.currentNetwork = detectedNetwork
         
         // When
@@ -91,17 +85,10 @@ final class TrustEvaluationUseCaseTests: XCTestCase {
     
     func test_trustEvaluation_returnsNotTrustedForPublicWiFi() async throws {
         // Given
-        let detectedNetwork = DetectedNetwork(
-            ssid: "Starbucks WiFi",
-            bssid: nil,
-            subnet: "10.0.0.0/8",
-            gatewayAddresses: ["10.0.0.1"],
-            dnsServers: ["10.0.0.1"],
-            interfaceName: "en0",
-            isWiFi: true,
-            isCellular: false,
-            isExpensive: false
-        )
+        var detectedNetwork = DetectedNetwork()
+        detectedNetwork.ssid = "Starbucks WiFi"
+        detectedNetwork.interfaceName = "en0"
+        detectedNetwork.interfaceType = .wifi
         networkMonitor.currentNetwork = detectedNetwork
         
         // When
@@ -115,17 +102,9 @@ final class TrustEvaluationUseCaseTests: XCTestCase {
     
     func test_trustEvaluation_returnsNotTrustedForCellular() async throws {
         // Given
-        let detectedNetwork = DetectedNetwork(
-            ssid: nil,
-            bssid: nil,
-            subnet: nil,
-            gatewayAddresses: [],
-            dnsServers: [],
-            interfaceName: "pdp_ip0",
-            isWiFi: false,
-            isCellular: true,
-            isExpensive: true
-        )
+        var detectedNetwork = DetectedNetwork()
+        detectedNetwork.interfaceName = "pdp_ip0"
+        detectedNetwork.interfaceType = .cellular
         networkMonitor.currentNetwork = detectedNetwork
         
         // When
@@ -146,17 +125,11 @@ final class TrustEvaluationUseCaseTests: XCTestCase {
         trustedNetwork.isEnabled = false
         await trustedNetworkRepo.networks.append(trustedNetwork)
         
-        let detectedNetwork = DetectedNetwork(
-            ssid: "OfficeWiFi",
-            bssid: "11:22:33:44:55:66",
-            subnet: "10.0.0.0/24",
-            gatewayAddresses: ["10.0.0.1"],
-            dnsServers: ["10.0.0.1"],
-            interfaceName: "en0",
-            isWiFi: true,
-            isCellular: false,
-            isExpensive: false
-        )
+        var detectedNetwork = DetectedNetwork()
+        detectedNetwork.ssid = "OfficeWiFi"
+        detectedNetwork.bssid = "11:22:33:44:55:66"
+        detectedNetwork.interfaceName = "en0"
+        detectedNetwork.interfaceType = .wifi
         networkMonitor.currentNetwork = detectedNetwork
         
         // When
@@ -172,17 +145,13 @@ final class TrustEvaluationUseCaseTests: XCTestCase {
     
     func test_addTrustedNetwork_createsNetworkFromCurrentConnection() async throws {
         // Given
-        let detectedNetwork = DetectedNetwork(
-            ssid: "TestNetwork",
-            bssid: "aa:bb:cc:dd:ee:ff",
-            subnet: "192.168.1.0/24",
-            gatewayAddresses: ["192.168.1.1"],
-            dnsServers: ["8.8.8.8"],
-            interfaceName: "en0",
-            isWiFi: true,
-            isCellular: false,
-            isExpensive: false
-        )
+        var detectedNetwork = DetectedNetwork()
+        detectedNetwork.ssid = "TestNetwork"
+        detectedNetwork.bssid = "aa:bb:cc:dd:ee:ff"
+        detectedNetwork.interfaceName = "en0"
+        detectedNetwork.interfaceType = .wifi
+        detectedNetwork.ipAddresses = [IPAddress("192.168.1.100")]
+        detectedNetwork.gateway = IPAddress("192.168.1.1")
         networkMonitor.currentNetwork = detectedNetwork
         
         let input = AddTrustedNetworkUseCase.Input(
