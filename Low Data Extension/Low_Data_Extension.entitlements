@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Network Extension Entitlements -->
+    <key>com.apple.developer.networking.networkextension</key>
+    <array>
+        <string>content-filter-provider-systemextension</string>
+    </array>
+    
+    <!-- System Extension Entitlement -->
+    <key>com.apple.developer.system-extension.install</key>
+    <true/>
+    
+    <!-- App Groups for sharing data with main app -->
+    <key>com.apple.security.application-groups</key>
+    <array>
+        <string>group.com.lowdata</string>
+    </array>
+    
+    <!-- Hardened Runtime -->
+    <key>com.apple.security.app-sandbox</key>
+    <false/>
+    
+    <!-- Allow incoming connections -->
+    <key>com.apple.security.network.server</key>
+    <true/>
+    
+    <!-- Allow outgoing connections -->
+    <key>com.apple.security.network.client</key>
+    <true/>
+</dict>
+</plist>
