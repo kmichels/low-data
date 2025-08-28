@@ -17,8 +17,9 @@ Low Data helps you save bandwidth when you're away from trusted networks (like h
 
 ## System Requirements
 
-- macOS 13.0 (Ventura) or later
+- **macOS 15.0 (Sequoia) or later** - Required for latest Network Extension APIs
 - Admin privileges for initial setup (System Extension installation)
+- Code signing certificate for development (Apple Developer account)
 
 ## Installation
 

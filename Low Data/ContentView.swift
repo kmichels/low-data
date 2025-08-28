@@ -10,39 +10,66 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
+    @StateObject private var extensionManager = ExtensionManager.shared
+    
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \CDTrustedNetwork.dateAdded, ascending: false)],
         animation: .default)
     private var trustedNetworks: FetchedResults<CDTrustedNetwork>
+    
+    @State private var selectedTab = "setup"
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(trustedNetworks) { network in
-                    NavigationLink {
-                        Text("Network: \(network.name ?? "Unknown")")
-                    } label: {
-                        VStack(alignment: .leading) {
-                            Text(network.name ?? "Unknown")
-                                .font(.headline)
-                            Text("Added: \(network.dateAdded ?? Date(), formatter: itemFormatter)")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+        TabView(selection: $selectedTab) {
+            // Extension Setup Tab
+            ExtensionActivationView()
+                .tabItem {
+                    Label("Setup", systemImage: "gearshape.2")
+                }
+                .tag("setup")
+            
+            // Networks Tab
+            NavigationView {
+                List {
+                    ForEach(trustedNetworks) { network in
+                        NavigationLink {
+                            Text("Network: \(network.name ?? "Unknown")")
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text(network.name ?? "Unknown")
+                                    .font(.headline)
+                                Text("Added: \(network.dateAdded ?? Date(), formatter: itemFormatter)")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
+                    .onDelete(perform: deleteNetworks)
                 }
-                .onDelete(perform: deleteNetworks)
-            }
-            .toolbar {
-                ToolbarItem {
-                    Button(action: addNetwork) {
-                        Label("Add Network", systemImage: "wifi.circle.fill")
+                .navigationTitle("Trusted Networks")
+                .toolbar {
+                    ToolbarItem {
+                        Button(action: addNetwork) {
+                            Label("Add Network", systemImage: "wifi.circle.fill")
+                        }
+                        .disabled(extensionManager.extensionStatus != .running)
                     }
                 }
+                Text("Select a network")
             }
-            Text("Select a network")
+            .tabItem {
+                Label("Networks", systemImage: "wifi")
+            }
+            .tag("networks")
+            
+            // Statistics Tab
+            Text("Statistics View - Coming Soon")
+                .tabItem {
+                    Label("Statistics", systemImage: "chart.bar")
+                }
+                .tag("statistics")
         }
+        .frame(minWidth: 800, minHeight: 600)
     }
 
     private func addNetwork() {

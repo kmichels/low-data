@@ -90,3 +90,30 @@ public struct XPCServiceNames {
     public static let systemExtension = "com.lowdata.system-extension"
 }
 
+// MARK: - XPC Errors
+
+public enum XPCError: LocalizedError {
+    case connectionFailed
+    case serviceNotAvailable
+    case encodingError
+    case decodingError
+    case unauthorized
+    case timeout
+    
+    public var errorDescription: String? {
+        switch self {
+        case .connectionFailed:
+            return "Failed to establish XPC connection"
+        case .serviceNotAvailable:
+            return "XPC service is not available"
+        case .encodingError:
+            return "Failed to encode data for XPC transfer"
+        case .decodingError:
+            return "Failed to decode XPC response data"
+        case .unauthorized:
+            return "Not authorized to communicate with system extension"
+        case .timeout:
+            return "XPC request timed out"
+        }
+    }
+}

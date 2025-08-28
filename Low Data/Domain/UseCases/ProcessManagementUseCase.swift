@@ -319,7 +319,7 @@ public actor LearnProcessBehaviorUseCase: UseCase {
     public func execute(_ input: Input) async throws -> Output {
         // Fetch recent observations
         let endDate = Date()
-        let startDate = Calendar.current.date(
+        let _ = Calendar.current.date(
             byAdding: .day, 
             value: -input.learningPeriodDays, 
             to: endDate

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		71056EB72E5F0867003DE4B4 /* Low Data Architecture.md in Resources */ = {isa = PBXBuildFile; fileRef = 71056EB62E5F0857003DE4B4 /* Low Data Architecture.md */; };
+		712236BE2E5FC18000A60E0F /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712236BD2E5FC18000A60E0F /* NetworkExtension.framework */; };
+		712236C82E5FC18000A60E0F /* com.tonalphoto.tech.Low-Data.Low-Data-Extensino.systemextension in Embed System Extensions */ = {isa = PBXBuildFile; fileRef = 712236BB2E5FC18000A60E0F /* com.tonalphoto.tech.Low-Data.Low-Data-Extensino.systemextension */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,14 +27,47 @@
 			remoteGlobalIDString = 71056E852E5F0820003DE4B4;
 			remoteInfo = "Low Data";
 		};
+		712236C62E5FC18000A60E0F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 71056E7E2E5F0820003DE4B4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 712236BA2E5FC18000A60E0F;
+			remoteInfo = "Low Data Extensino";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		712236CD2E5FC18000A60E0F /* Embed System Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(SYSTEM_EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+				712236C82E5FC18000A60E0F /* com.tonalphoto.tech.Low-Data.Low-Data-Extensino.systemextension in Embed System Extensions */,
+			);
+			name = "Embed System Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		71056E862E5F0820003DE4B4 /* Low Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Low Data.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71056E992E5F0821003DE4B4 /* Low DataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Low DataTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71056EA32E5F0821003DE4B4 /* Low DataUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Low DataUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71056EB62E5F0857003DE4B4 /* Low Data Architecture.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Low Data Architecture.md"; sourceTree = "<group>"; };
+		712236BB2E5FC18000A60E0F /* com.tonalphoto.tech.Low-Data.Low-Data-Extensino.systemextension */ = {isa = PBXFileReference; explicitFileType = "wrapper.system-extension"; includeInIndex = 0; path = "com.tonalphoto.tech.Low-Data.Low-Data-Extensino.systemextension"; sourceTree = BUILT_PRODUCTS_DIR; };
+		712236BD2E5FC18000A60E0F /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		712236C92E5FC18000A60E0F /* Exceptions for "Low Data Extensino" folder in "Low Data Extensino" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 712236BA2E5FC18000A60E0F /* Low Data Extensino */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		71056E882E5F0820003DE4B4 /* Low Data */ = {
@@ -48,6 +83,14 @@
 		71056EA62E5F0821003DE4B4 /* Low DataUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Low DataUITests";
+			sourceTree = "<group>";
+		};
+		712236BF2E5FC18000A60E0F /* Low Data Extensino */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				712236C92E5FC18000A60E0F /* Exceptions for "Low Data Extensino" folder in "Low Data Extensino" target */,
+			);
+			path = "Low Data Extensino";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -74,6 +117,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		712236B82E5FC18000A60E0F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				712236BE2E5FC18000A60E0F /* NetworkExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -84,6 +135,8 @@
 				71056E882E5F0820003DE4B4 /* Low Data */,
 				71056E9C2E5F0821003DE4B4 /* Low DataTests */,
 				71056EA62E5F0821003DE4B4 /* Low DataUITests */,
+				712236BF2E5FC18000A60E0F /* Low Data Extensino */,
+				712236BC2E5FC18000A60E0F /* Frameworks */,
 				71056E872E5F0820003DE4B4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -94,8 +147,17 @@
 				71056E862E5F0820003DE4B4 /* Low Data.app */,
 				71056E992E5F0821003DE4B4 /* Low DataTests.xctest */,
 				71056EA32E5F0821003DE4B4 /* Low DataUITests.xctest */,
+				712236BB2E5FC18000A60E0F /* com.tonalphoto.tech.Low-Data.Low-Data-Extensino.systemextension */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		712236BC2E5FC18000A60E0F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				712236BD2E5FC18000A60E0F /* NetworkExtension.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -108,10 +170,12 @@
 				71056E822E5F0820003DE4B4 /* Sources */,
 				71056E832E5F0820003DE4B4 /* Frameworks */,
 				71056E842E5F0820003DE4B4 /* Resources */,
+				712236CD2E5FC18000A60E0F /* Embed System Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				712236C72E5FC18000A60E0F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				71056E882E5F0820003DE4B4 /* Low Data */,
@@ -169,6 +233,28 @@
 			productReference = 71056EA32E5F0821003DE4B4 /* Low DataUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		712236BA2E5FC18000A60E0F /* Low Data Extensino */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 712236CA2E5FC18000A60E0F /* Build configuration list for PBXNativeTarget "Low Data Extensino" */;
+			buildPhases = (
+				712236B72E5FC18000A60E0F /* Sources */,
+				712236B82E5FC18000A60E0F /* Frameworks */,
+				712236B92E5FC18000A60E0F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				712236BF2E5FC18000A60E0F /* Low Data Extensino */,
+			);
+			name = "Low Data Extensino";
+			packageProductDependencies = (
+			);
+			productName = "Low Data Extensino";
+			productReference = 712236BB2E5FC18000A60E0F /* com.tonalphoto.tech.Low-Data.Low-Data-Extensino.systemextension */;
+			productType = "com.apple.product-type.system-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -190,6 +276,10 @@
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = 71056E852E5F0820003DE4B4;
 					};
+					712236BA2E5FC18000A60E0F = {
+						CreatedOnToolsVersion = 16.4;
+						LastSwiftMigration = 1640;
+					};
 				};
 			};
 			buildConfigurationList = 71056E812E5F0820003DE4B4 /* Build configuration list for PBXProject "Low Data" */;
@@ -209,6 +299,7 @@
 				71056E852E5F0820003DE4B4 /* Low Data */,
 				71056E982E5F0821003DE4B4 /* Low DataTests */,
 				71056EA22E5F0821003DE4B4 /* Low DataUITests */,
+				712236BA2E5FC18000A60E0F /* Low Data Extensino */,
 			);
 		};
 /* End PBXProject section */
@@ -230,6 +321,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		71056EA12E5F0821003DE4B4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		712236B92E5FC18000A60E0F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -260,6 +358,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		712236B72E5FC18000A60E0F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -272,6 +377,11 @@
 			isa = PBXTargetDependency;
 			target = 71056E852E5F0820003DE4B4 /* Low Data */;
 			targetProxy = 71056EA42E5F0821003DE4B4 /* PBXContainerItemProxy */;
+		};
+		712236C72E5FC18000A60E0F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 712236BA2E5FC18000A60E0F /* Low Data Extensino */;
+			targetProxy = 712236C62E5FC18000A60E0F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -524,6 +634,63 @@
 			};
 			name = Release;
 		};
+		712236CB2E5FC18000A60E0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Low Data Extensino/Low_Data_Extensino.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 85QL287QYW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Low Data Extensino/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Low Data Extensino";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tonalphoto.tech.Low-Data.Low-Data-Extensino";
+				PRODUCT_NAME = "$(inherited)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		712236CC2E5FC18000A60E0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Low Data Extensino/Low_Data_Extensino.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 85QL287QYW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Low Data Extensino/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Low Data Extensino";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tonalphoto.tech.Low-Data.Low-Data-Extensino";
+				PRODUCT_NAME = "$(inherited)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -559,6 +726,15 @@
 			buildConfigurations = (
 				71056EB42E5F0821003DE4B4 /* Debug */,
 				71056EB52E5F0821003DE4B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		712236CA2E5FC18000A60E0F /* Build configuration list for PBXNativeTarget "Low Data Extensino" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				712236CB2E5FC18000A60E0F /* Debug */,
+				712236CC2E5FC18000A60E0F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
